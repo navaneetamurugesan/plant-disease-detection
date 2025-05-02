@@ -37,17 +37,6 @@ GreenLeaf is a containerized AI-powered web application designed to detect plant
 
 ---
 
-## 🧪 Setup Instructions
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/navaneeta30/greenleaf-ai-plant-disease-detector.git
-cd greenleaf-ai-plant-disease-detector
-
-**### 2. Build and Run with Docker**
-```bash
-docker build -t greenleaf-app .
-docker run -p 5000:5000 greenleaf-app
 
 **🧠 Usage Guide**
 
@@ -84,6 +73,21 @@ Cloud storage integration (e.g., S3 or Firebase)
 IoT-based leaf sensors
 
 Crop-specific fertilizer optimization using AI
+
+
+
+## 🧪 Setup Instructions
+
+**1. Clone the Repository**
+```bash
+git clone https://github.com/navaneeta30/greenleaf-ai-plant-disease-detector.git
+cd greenleaf-ai-plant-disease-detector
+
+**### 2. Build and Run with Docker**
+```bash
+docker build -t greenleaf-app .
+docker run -p 5000:5000 greenleaf-app
+
 
 ## 📞 Contact
 Feel free to reach out for questions, suggestions, or collaborations:
