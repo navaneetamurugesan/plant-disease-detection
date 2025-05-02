@@ -1,0 +1,11 @@
+flask
+werkzeug
+pillow
+pandas
+numpy==1.24.4
+scikit-learn
+opencv-python
+huggingface_hub
+requests
+gunicorn
+transformers
