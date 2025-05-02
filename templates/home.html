@@ -1,0 +1,41 @@
+
+{% extends 'base.html' %}
+{% block pagetitle %}
+Plant Disease Detection
+{% endblock pagetitle %}
+{% block body %}
+<style>
+  body{
+    overflow-x: hidden;
+  }
+  @media only screen and (max-width: 830px) {
+    .laptop{
+      display: none;
+    }
+  }
+  @media (min-width:830px) and (max-width: 1536px){
+    .mobile{
+      display: none;
+    }
+  }
+  .my-button {
+    background-color: #ffae17; /* Hex color code for a shade of blue */
+  }
+</style>
+
+<div class="row mb-5 text-center text-white laptop">
+  <div class="col-lg-10 mx-auto">
+      <h1 class="display-4" style="padding-top: 2%;font-weight: 400;color: rgb(4, 54, 4);"><b>🍁Plant Disease
+              Detection🍁 </b></h1>
+      <p class="lead" style="font-weight: 500;color: black;">This AI Engine Will Help To Detect Disease in Plants </p>
+  </div>
+</div>
+
+<center class="laptop">
+    <a href="/index">
+    <button class = "bttn-pill bttn-lg btn-success my-button" ><b style="color: black;">Disease Prediction Engine</b></button>
+</a>
+</center>
+</center>
+
+{% endblock body %}

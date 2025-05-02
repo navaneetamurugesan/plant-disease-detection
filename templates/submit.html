@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    
+    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/bttn.css/0.2.4/bttn.css">
+
+    <title> {% block pagetitle %}
+        Disease Detection Result
+        {% endblock pagetitle %}</title>
+    <style>
+        .bg {
+            background-image: url("images/background.jpeg");
+            height: 100%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .file-upload input[type='file'] {
+            display: none;
+        }
+
+        body {
+            background-color: #4ECC5A;
+            /* background: -webkit-linear-gradient(to right, #66a776, #043610);
+            background: linear-gradient(to right, #5d9c6a, #059b0d); */
+            height: 100vh;
+        }
+
+        .rounded-lg {
+            border-radius: 1rem;
+        }
+
+        .custom-file-label.rounded-pill {
+            border-radius: 50rem;
+        }
+
+        .custom-file-label.rounded-pill::after {
+            border-radius: 0 50rem 50rem 0;
+        }
+
+        label {
+            background-color: rgb(2, 46, 15);
+            color: white;
+            padding: 0.5rem;
+            font-family: sans-serif;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        #file-chosen {
+            margin-left: 0.3rem;
+            font-family: sans-serif;
+        }
+
+        .footer-basic {
+            padding: 40px 0;
+            background-color: #042908;
+            color: #f1f3f5;
+        }
+
+        .footer-basic ul {
+            padding: 0;
+            list-style: none;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .footer-basic li {
+            padding: 0 10px;
+        }
+
+        .footer-basic ul a {
+            color: inherit;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        .footer-basic ul a:hover {
+            opacity: 1;
+        }
+
+        .footer-basic .social {
+            text-align: center;
+            padding-bottom: 25px;
+        }
+
+        .footer-basic .social>a {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            display: inline-block;
+            text-align: center;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            margin: 0 8px;
+            color: inherit;
+            opacity: 0.75;
+        }
+
+        .footer-basic .social>a:hover {
+            opacity: 0.9;
+        }
+
+        .footer-basic .copyright {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 0;
+        }
+
+        /* Added styles for disease detection results */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .analysis-item {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+        }
+        .item-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .item-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #043604;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark " style="background-color:#05380b;">
+        <!-- <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="navbar-brand active">
+                    <a class="nav-link" href="/" style="color: white;">Home</a>
+                </li>
+                <li class="navbar-brand active">
+                    <a class="nav-link" href="/index" style="color: white;">Disease Prediction Engine</a>
+                </li>
+                <li class="navbar-brand">
+                    <a class="nav-link" href="/market" style="color: white;">Supplements</a>
+                </li>
+                <li class="navbar-brand">
+                    <a class="nav-link" href="/contact" style="color: white;">For-Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Disease Detection Results Content -->
+    <div>
+        <div class="container">
+            <!-- Header -->
+            <div class="row mb-5 text-center text-white">
+                <div class="col-lg-10 mx-auto">
+                    <h1 class="display-4" style="padding-top: 2%; font-weight: 400; color: rgb(4, 54, 4);">
+                        <b>🌳Disease Detection Results🌳</b>
+                    </h1>
+                    <p class="lead" style="font-weight: 500; color: black;">
+                        Plant Disease Detection Engine Has Analyzed Your Plant
+                    </p>
+                </div>
+            </div>
+            <!-- End Header -->
+
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="p-5 bg-white shadow rounded-lg" style="height: 95%;">
+                        <h4 class="text-center mb-4" style="color: rgb(4, 54, 4);"><b>{{ title }}</b></h4>
+                        
+                        <!-- Display disease image -->
+                        <img src="{{ image_url }}" alt="{{ title }}" class="d-block mx-auto mb-4 rounded" style="height: 300px; width: auto;">
+                        
+                        <!-- Original disease description -->
+                        <div class="mb-4">
+                            <h5><b>About the Disease:</b></h5>
+                            <p>{{ desc }}</p>
+                        </div>
+                        
+                        <!-- Original prevention steps -->
+                        <div class="mb-4">
+                            <h5><b>Prevention Steps:</b></h5>
+                            <p>{{ prevent }}</p>
+                        </div>
+                        
+                        <!-- Button to toggle AI Analysis -->
+                        <center>
+                            <button id="toggleAnalysisBtn" class="btn btn-outline-success mb-4">View Detailed AI Analysis</button>
+                        </center>
+
+                        <!-- AI Analysis Content (hidden by default) -->
+                        <div id="aiAnalysisContent" style="display: none;">
+                            <div class="mb-4 p-3 bg-light rounded">
+                                <h5><b>AI Analysis:</b></h5>
+                                <div class="analysis-grid">
+                                    <div class="analysis-item">
+                                        <div class="item-title">Detection Confidence</div>
+                                        <div class="item-value">92%</div>
+                                    </div>
+                                    <div class="analysis-item">
+                                        <div class="item-title">First Detected</div>
+                                        <div class="item-value">{{ now }}</div>
+                                    </div>
+                                    <div class="analysis-item">
+                                        <div class="item-title">Infection Level</div>
+                                        <div class="item-value">Moderate</div>
+                                    </div>
+                                    <div class="analysis-item">
+                                        <div class="item-title">Spread Risk</div>
+                                        <div class="item-value">High</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- LLM Enhanced Disease Description -->
+                                <h5 class="mt-3"><b>Advanced Disease Analysis:</b></h5>
+                                <div class="p-3 bg-white rounded border">
+                                    <p>{{ enhanced_description }}</p>
+                                </div>
+                                
+                                <!-- LLM Enhanced Treatment Recommendations -->
+                                <h5 class="mt-3"><b>AI-Generated Treatment Plan:</b></h5>
+                                <div class="p-3 bg-white rounded border">
+                                    <p>{{ enhanced_treatment }}</p>
+                                </div>
+                                
+                                <h5 class="mt-3"><b>Recommended Products:</b></h5>
+                                <div class="text-center mt-3">
+                                    <img src="{{ simage }}" alt="{{ sname }}" style="max-height: 150px; width: auto;">
+                                    <p class="mt-2">{{ sname }}</p>
+                                    <a href="{{ buy_link }}" target="_blank" class="btn btn-success">View Product</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-basic">
+        <footer>
+            <br>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="/">Home</a></li>
+                <li class="list-inline-item laptop"><a href="/index">Disease Prediction Engine</a></li>
+                <li class="list-inline-item laptop"><a href="/contact">Contact Us</a></li>
+            </ul>
+            <p class="copyright">Plant Disease Prediction</p>
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+<!-- Fixed mobile detection script -->
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches) {
+        // The viewport is less than 768 pixels wide
+        console.log("This is a mobile device.");
+        window.location.href = '/mobile-device';
+    } else {
+        // The viewport is at least 768 pixels wide
+        console.log("This is a tablet or desktop.");
+    }
+</script>
+
+<script>
+    if(screen.width <= 700){
+        document.location = 'manthan2.html';
+    }
+</script>
+
+<!-- Toggle AI Analysis Button Script -->
+<script>
+    document.getElementById('toggleAnalysisBtn').addEventListener('click', function() {
+        var analysisContent = document.getElementById('aiAnalysisContent');
+        var button = document.getElementById('toggleAnalysisBtn');
+        
+        if (analysisContent.style.display === 'none') {
+            analysisContent.style.display = 'block';
+            button.textContent = 'Hide Detailed AI Analysis';
+        } else {
+            analysisContent.style.display = 'none';
+            button.textContent = 'View Detailed AI Analysis';
+        }
+    });
+</script>
+
+<!-- Add this right after the View Detailed AI Analysis button -->
+<div class="mt-5 p-4 bg-light rounded" id="chatbotSection">
+    <h5 class="text-center" style="color: rgb(4, 54, 4);"><b>🌱 Plant Expert AI Chatbot 🌱</b></h5>
+    <p class="text-center text-muted small">Powered by EleutherAI/gpt-neo-125M</p>
+    
+    <!-- Chat messages container -->
+    <div id="chat-messages" class="mb-4" style="height: 250px; overflow-y: auto; border: 1px solid #e9ecef; border-radius: 5px; padding: 15px; background-color: #f8f9fa;">
+        <!-- Welcome message -->
+        <div class="message bot-message mb-3">
+            <div style="background-color: #e9f7ef; border-radius: 10px; padding: 10px; display: inline-block; max-width: 80%;">
+                <p class="mb-0">👋 Hello! I'm your Plant Expert AI assistant. I can help with questions about {{ title }} or any other plant care topics. What would you like to know?</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Input area -->
+    <div class="input-group">
+        <input type="text" id="user-input" class="form-control" placeholder="Ask about treatments, prevention, or other plant care questions..." aria-label="Message">
+        <button class="btn btn-success" type="button" id="send-button" onclick="sendMessage()">
+            Send
+        </button>
+    </div>
+    
+    <!-- Loading indicator -->
+    <div id="loading-indicator" class="text-center mt-3" style="display: none;">
+        <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted">Generating response...</p>
+    </div>
+    
+    <!-- Sample questions -->
+    <div class="mt-3">
+        <h6>Sample Questions:</h6>
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-sm btn-outline-success sample-question" onclick="useQuestion(this)">How do I identify {{ title }}?</button>
+            <button class="btn btn-sm btn-outline-success sample-question" onclick="useQuestion(this)">Is {{ title }} contagious to other plants?</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add this JavaScript at the end of the page, right before </body> -->
+<script>
+    // Allow sending message with Enter key
+    document.getElementById('user-input').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    function useQuestion(button) {
+        document.getElementById('user-input').value = button.textContent;
+    }
+    
+    function sendMessage() {
+        const userInput = document.getElementById('user-input');
+        const message = userInput.value.trim();
+        
+        if (message === '') return;
+        
+        // Add user message to chat
+        addMessage(message, 'user');
+        
+        // Clear input
+        userInput.value = '';
+        
+        // Show loading indicator
+        document.getElementById('loading-indicator').style.display = 'block';
+        
+        // Send to backend
+        fetch('/chat_with_llm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message, disease: "{{ title }}" }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide loading indicator
+            document.getElementById('loading-indicator').style.display = 'none';
+            
+            // Display bot response
+            if (data.error) {
+                addMessage("Sorry, I encountered an error. Please try again later.", 'bot');
+                console.error(data.error);
+            } else {
+                addMessage(data.response, 'bot');
+            }
+            
+            // Scroll to bottom
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('loading-indicator').style.display = 'none';
+            addMessage("Sorry, I encountered an error connecting to the server. Please try again.", 'bot');
+        });
+    }
+    
+    function addMessage(text, sender) {
+        const chatMessages = document.getElementById('chat-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message mb-3`;
+        
+        // Apply different styling based on sender
+        if (sender === 'user') {
+            messageDiv.innerHTML = `
+                <div style="background-color: #e3f2fd; border-radius: 10px; padding: 10px; display: inline-block; max-width: 80%; float: right; clear: both;">
+                    <p class="mb-0">${escapeHtml(text)}</p>
+                </div>
+                <div style="clear: both;"></div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div style="background-color: #e9f7ef; border-radius: 10px; padding: 10px; display: inline-block; max-width: 80%;">
+                    <p class="mb-0">${text}</p>
+                </div>
+            `;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Helper function to escape HTML
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+</script>
+
+</html>

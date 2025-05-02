@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block pagetitle %}
+Plant Expert Chatbot
+{% endblock pagetitle %}
+
+{% block body %}
+<div>
+    <div class="container">
+        <!-- Header -->
+        <div class="row mb-5 text-center text-white">
+            <div class="col-lg-10 mx-auto">
+                <h1 class="display-4" style="padding-top: 2%; font-weight: 400; color: rgb(4, 54, 4);">
+                    <b>🌱 Plant Expert AI Chatbot 🌱</b>
+                </h1>
+                <p class="lead" style="font-weight: 500; color: black;">
+                    Ask questions about plant diseases, treatments, and gardening tips
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="p-4 bg-white shadow rounded-lg" style="min-height: 500px;">
+                    <!-- Chat messages container -->
+                    <div id="chat-messages" class="mb-4" style="height: 400px; overflow-y: auto; border: 1px solid #e9ecef; border-radius: 5px; padding: 15px; background-color: #f8f9fa;">
+                        <!-- Welcome message -->
+                        <div class="message bot-message mb-3">
+                            <div style="background-color: #e9f7ef; border-radius: 10px; padding: 10px; display: inline-block; max-width: 80%;">
+                                <p class="mb-0">👋 Hello! I'm your Plant Expert AI assistant. I can answer questions about plant diseases, pests, care tips, and gardening techniques. How can I help you today?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Input area -->
+                    <div class="input-group">
+                        <input type="text" id="user-input" class="form-control" placeholder="Type your question here..." aria-label="Message">
+                        <button class="btn btn-success" type="button" id="send-button" onclick="sendMessage()">
+                            Send
+                        </button>
+                    </div>
+                    
+                    <!-- Loading indicator -->
+                    <div id="loading-indicator" class="text-center mt-3" style="display: none;">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="text-muted">Generating response...</p>
+                    </div>
+                    
+                    <!-- Sample questions -->
+                    <div class="mt-4">
+                        <h6>Sample Questions:</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-sm btn-outline-success sample-question" onclick="useQuestion(this)">How do I identify tomato blight?</button>
+                            <button class="btn btn-sm btn-outline-success sample-question" onclick="useQuestion(this)">What causes yellow leaves on plants?</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Allow sending message with Enter key
+    document.getElementById('user-input').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    function useQuestion(button) {
+        document.getElementById('user-input').value = button.textContent;
+    }
+    
+    function sendMessage() {
+        const userInput = document.getElementById('user-input');
+        const message = userInput.value.trim();
+        
+        if (message === '') return;
+        
+        // Add user message to chat
+        addMessage(message, 'user');
+        
+        // Clear input
+        userInput.value = '';
+        
+        // Show loading indicator
+        document.getElementById('loading-indicator').style.display = 'block';
+        
+        // Send to backend
+        fetch('/chat_with_llm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide loading indicator
+            document.getElementById('loading-indicator').style.display = 'none';
+            
+            // Display bot response
+            if (data.error) {
+                addMessage("Sorry, I encountered an error. Please try again later.", 'bot');
+                console.error(data.error);
+            } else {
+                addMessage(data.response, 'bot');
+            }
+            
+            // Scroll to bottom
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('loading-indicator').style.display = 'none';
+            addMessage("Sorry, I encountered an error connecting to the server. Please try again.", 'bot');
+        });
+    }
+    
+    function addMessage(text, sender) {
+        const chatMessages = document.getElementById('chat-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message mb-3`;
+        
+        // Apply different styling based on sender
+        if (sender === 'user') {
+            messageDiv.innerHTML = `
+                <div style="background-color: #e3f2fd; border-radius: 10px; padding: 10px; display: inline-block; max-width: 80%; float: right; clear: both;">
+                    <p class="mb-0">${escapeHtml(text)}</p>
+                </div>
+                <div style="clear: both;"></div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div style="background-color: #e9f7ef; border-radius: 10px; padding: 10px; display: inline-block; max-width: 80%;">
+                    <p class="mb-0">${text}</p>
+                </div>
+            `;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Helper function to escape HTML
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+</script>
+{% endblock body %}
