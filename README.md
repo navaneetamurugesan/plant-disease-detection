@@ -25,6 +25,6 @@ This project is a Flask-based web app that uses deep learning to detect plant di
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/your-username/plant-disease-detection.git
+git clone https://github.com/navaneeta30/plant-disease-detection.git
 cd plant-disease-detection
 
