@@ -75,6 +75,12 @@ IoT-based leaf sensors
 Crop-specific fertilizer optimization using AI
 
 
+**## 📞 Contact**
+Feel free to reach out for questions, suggestions, or collaborations:
+
+LinkedIn: Navaneeta
+Email: navaneeta3005@gmail.com
+
 
 ## 🧪 Setup Instructions
 
@@ -88,11 +94,4 @@ cd greenleaf-ai-plant-disease-detector
 docker build -t greenleaf-app .
 docker run -p 5000:5000 greenleaf-app
 
-##
 
-
-**## 📞 Contact**
-Feel free to reach out for questions, suggestions, or collaborations:
-
-LinkedIn: Navaneeta
-Email: navaneeta3005@gmail.com
