@@ -88,8 +88,10 @@ cd greenleaf-ai-plant-disease-detector
 docker build -t greenleaf-app .
 docker run -p 5000:5000 greenleaf-app
 
+##
 
-## 📞 Contact
+
+**## 📞 Contact**
 Feel free to reach out for questions, suggestions, or collaborations:
 
 LinkedIn: Navaneeta
